@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>HA Dist - Logon</title>    
+</head>
+<body>
+
 <?php
 /**
  * Created by Chris on 9/29/2014 3:52 PM.
@@ -53,3 +62,6 @@ if(Input::exists()) {
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     <input type="submit" value="Login">
 </form>
+
+</body>
+</html>

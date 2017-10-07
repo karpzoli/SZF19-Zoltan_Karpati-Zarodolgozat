@@ -19,7 +19,7 @@ class Validate {
                 $item = escape($item);
 
                 if($rule === 'required' && empty($value)) {
-                    $this->addError("{$item} is required");
+                    $this->addError("All items are required to be filled!"); //{$item} is required
                 } else if (!empty($value)) {
                     switch($rule) {
                         case 'min':

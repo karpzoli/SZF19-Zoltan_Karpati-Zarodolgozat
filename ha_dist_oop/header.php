@@ -6,6 +6,8 @@
     <title></title>
 </head>
 <body>
+ <?php $user = new User(); ?>
+
     <p>Hello <?php echo escape($user->data()->first_name)." ".escape($user->data()->last_name); ?>
     <a href="profile.php?user=<?php echo escape($user->data()->username);?>">( <?php echo escape($user->data()->username); ?> )</a></p>
 

@@ -22,6 +22,7 @@ $GLOBALS['config'] = array(
     )
 );
 
+//instead using of 'include' on the file of a particular instantinated class in every file, this makes them available 
 spl_autoload_register(function($class) {
     require_once 'classes/' . $class . '.php';
 });
@@ -37,3 +38,13 @@ if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Confi
         $user->login();
     }
 }
+
+//User Role definitions used on pages
+define("ROLE0", "Deactivated user");
+define("ROLE1", "Logistics Coordinator");
+define("ROLE2", "Demand Planner");
+define("ROLE3", "Production Planner");
+define("ROLE4", "Master Data Admin");
+define("ROLE5", "System Admin");
+
+?>

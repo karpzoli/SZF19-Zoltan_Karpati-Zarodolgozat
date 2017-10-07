@@ -1,22 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>HA Dist - Create User</title>    
+</head>
+<body>
+
 <?php
 /**
  * Created by Chris on 9/29/2014 3:53 PM.
  */
 
 require_once 'core/init.php';
+include_once('header.php');
 
 if (Input::exists()) {
+    
     if(Token::check(Input::get('token'))) {
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'first_name' => array(
-                'first_name' => 'First Name',
+                'name' => 'First Name',
                 'required' => true,
                 'min' => 2,
                 'max' => 40
             ),
              'last_name' => array(
-                'last_name' => 'Last Name',
+                'name' => 'Last Name',
                 'required' => true,
                 'min' => 2,
                 'max' => 40
@@ -25,7 +36,7 @@ if (Input::exists()) {
                 'name' => 'Username',
                 'required' => true,
                 'min' => 2,
-                'max' => 20,
+                'max' => 8,
                 'unique' => 'users'
             ),
             'password' => array(
@@ -36,6 +47,14 @@ if (Input::exists()) {
             'password_again' => array(
                 'required' => true,
                 'matches' => 'password'
+            ),
+             'readWrite' => array(
+                'name' => 'readWrite',
+                'required' => true,                
+            ),
+               'role' => array(
+                'name' => 'Role',
+                'required' => true,                
             ),
         ));
 
@@ -49,32 +68,35 @@ if (Input::exists()) {
                     'last_name' => Input::get('last_name'),
                     'username' => Input::get('username'),
                     'password' => Hash::make(Input::get('password'), $salt),
+                    'rw' => Input::get('readWrite'),
+                    'role' => Input::get('role'),
                     'salt' => $salt,
-                    'joined' => date('Y-m-d H:i:s'),
-                    'role' => 1
+                    'joined' => date('Y-m-d H:i:s'),                    
                 ));
 
-                Session::flash('home', 'Welcome ' . Input::get('username') . '! Your account has been registered. You may now log in.');
-                Redirect::to('index.php');
+                //Session::flash('home', 'Welcome ' . Input::get('username') . '! Your account has been registered. You may now log in.');
+                ?><script>alert("User has been successfully created!")</script><?php
+                Redirect::to('user_management.php?user='.escape($user->data()->username));
             } catch(Exception $e) {
                 echo $error, '<br>';
             }
         } else {
-            foreach ($validate->errors() as $error) {
-                echo $error . "<br>";
-            }
+            foreach ($validate->errors() as $error) {                
+                }
+                echo '<script>alert("'.$error.'")</script>';
+            
         }
     }
 }
 ?>
-
+<h2>Add New User</h2>
 <form action="" method="post">
     <div class="field">
         <label for="first_name">First Name</label> <!--The for attribute specifies which form element a label is bound to.-->
         <input type="text" name="first_name" value="<?php echo escape(Input::get('first_name')); ?>" id="first_name">    
         <div class="field">
         <label for="last_name">Last Name</label>
-        <input type="text" name="last_name" value="<?php echo escape(Input::get('name')); ?>" id="last_name">
+        <input type="text" name="last_name" value="<?php echo escape(Input::get('last_name')); ?>" id="last_name">
     </div>
 
     <div class="field">
@@ -92,6 +114,31 @@ if (Input::exists()) {
         <input type="password" name="password_again" id="password_again" value="">
     </div>
 
+    <div class="field">
+        <label for="readWrite">Access type</label>       
+        <select name="readWrite" id="readWrite" value="<?php echo escape(Input::get('readWrite')); ?>">
+             <option value="0">Please select one</option>
+             <option value="1">Read Only</option>
+             <option value="2">Read & Write</option>
+        </select>
+    </div>
+
+      <div class="field">
+        <label for="role">User Role</label>       
+        <select name="role" id="role" value="<?php echo escape(Input::get('role')); ?>">
+            <option value="">Please select one</option>		
+	        <option value="0"><?php echo ROLE0 ?></option>
+        	<option value="1"><?php echo ROLE1 ?></option>
+        	<option value="2"><?php echo ROLE2 ?></option>
+        	<option value="3"><?php echo ROLE3 ?></option>
+            <option value="4"><?php echo ROLE4 ?></option>
+            <option value="5"><?php echo ROLE5 ?></option>
+        </select>
+     </div>
+
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     <input type="submit" value="Register">
 </form>
+
+</body>
+</html>

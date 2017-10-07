@@ -29,16 +29,16 @@ if($user->isLoggedIn()) {
                   echo '<li><a href="./shipper_management.php"> Shipper Management </a></li>';
                   echo '<li><a href="./user_management.php"> User Management </a></li>';
                 }
-                elseif($user->hasPermission(3) || $user->hasPermission(5) || $user->hasPermission(2) || $user->hasPermission(1)){
+                if($user->hasPermission(3) || $user->hasPermission(5) || $user->hasPermission(2) || $user->hasPermission(1)){
                   echo '<li><a href="#"> Reports </a></li>';
                 }
-                elseif($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
+                if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
                   echo '<li><a href="#"> Purchase Orders </a></li';
                   echo '<li><a href="#"> Invoices </a></li';
                 }
-                elseif($user->hasPermission(2) || $user->hasPermission(5)){
+                if($user->hasPermission(2) || $user->hasPermission(5)){
                   echo '<li><a href="./so_management.php"> Sales Orders </a></li>';}
-                elseif($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
+                if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
                   echo '<li><a href="./shipment_management.php"> Shipment </a></li>';}  
                 else {
                   echo "<p>Error with user authorization!</p>";
