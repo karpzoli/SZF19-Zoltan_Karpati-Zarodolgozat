@@ -1,0 +1,10 @@
++ User management: last login: doesn't seem to show porper values
++ User Management: function change role doesn't work
++ SO Management: check why it allows to delete the first line item?
++ SO Management: not getting back the max(order_number) from Db
+
+
+Future development: 
++ introduce transactions when inserting into header and line item
++ mass upload from files
++ formatted report download

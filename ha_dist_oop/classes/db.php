@@ -53,12 +53,12 @@ class DB {
 
     public function action($action, $table, $where = array()) {
     //check if all elements of the WHERE statement is in place
-        if(count($where) == 3) {  
-            $operators = array('=', '>', '<', '>=', '<=');
+        if(count($where) === 3) {  
+            $operators = array('=', '>', '<', '>=', '<=', 'LIKE');
 
-            $field = $where[0];
-            $operator = $where[1];
-            $value = $where[2];
+            $field = $where[0]; //order_number            
+            $operator = $where[1]; //IS NOT NULL
+            $value = $where[2]; //;                
 
             //check the operator's validity
             if(in_array($operator, $operators)) {
@@ -71,14 +71,15 @@ class DB {
 
         }
 
-        return $where;
+        return false;
     }
 
     public function insert($table, $fields = array()) {
+        //Return all the keys or a subset of the keys of an array
         $keys = array_keys($fields);
         $values = null;
         $x = 1;
-
+        //set values in row separated by commas
         foreach($fields as $field) {
             $values .= '?';
             if ($x < count($fields)) {
@@ -86,7 +87,8 @@ class DB {
             }
             $x++;
         }
-
+        //implode returns with a string
+        //"INSERT INTO MyGuests (firstname, lastname, email) VALUES ('John', 'Doe', 'john@example.com');";
         $sql = "INSERT INTO {$table} (`" . implode('`, `', $keys) . "`) VALUES ({$values})";
 
         if(!$this->query($sql, $fields)->error()) {
@@ -123,6 +125,15 @@ class DB {
 
     public function get($table, $where) {
         return $this->action('SELECT *', $table, $where);
+    }
+
+    public function getMAX($column, $table) {
+        $this->action('SELECT MAX('.$column.') AS max', $table, array($column, '>', '0'));  
+        return $this->results();
+    }
+
+    public function getField($table, $columnm, $where) {
+        return $this->action('SELECT'." ".$columnm, $table, $where);
     }
 
     public function results() {

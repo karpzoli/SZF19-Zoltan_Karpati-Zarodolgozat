@@ -72,11 +72,10 @@ if (Input::exists()) {
                     'role' => Input::get('role'),
                     'salt' => $salt,
                     'joined' => date('Y-m-d H:i:s'),                    
-                ));
-
-                //Session::flash('home', 'Welcome ' . Input::get('username') . '! Your account has been registered. You may now log in.');
-                ?><script>alert("User has been successfully created!")</script><?php
-                Redirect::to('user_management.php?user='.escape($user->data()->username));
+                ));  
+                //TODO find out why the alert is skipped                             
+                echo '<script>alert("User '.Input::get('username'). ' has been successfully created!")</script>'; 
+                Redirect::to('user_management.php?user='.escape($user->data()->username));            
             } catch(Exception $e) {
                 echo $error, '<br>';
             }
@@ -85,7 +84,7 @@ if (Input::exists()) {
                 }
                 echo '<script>alert("'.$error.'")</script>';
             
-        }
+        }        
     }
 }
 ?>
@@ -101,7 +100,7 @@ if (Input::exists()) {
 
     <div class="field">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php echo escape(Input::get('username')); ?>">
+        <input type="text" name="username" id="username" maxlength="8" value="<?php echo escape(Input::get('username')); ?>">
     </div>
 
     <div class="field">

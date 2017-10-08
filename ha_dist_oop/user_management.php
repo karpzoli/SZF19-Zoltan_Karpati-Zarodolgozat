@@ -9,51 +9,40 @@
 
 <?php 
 require_once 'core/init.php';
-?>
+include_once('header.php');
+$db = DB::getInstance();
 
-<!-- Adding New user -->
-<?php include_once('header.php');?> 
+if (Input::exists()) {
+    //var_dump($_POST);
+    $button=Input::get('okButton');
+    $toBeModified=Input::get('id');
+    if ($button=='Delete')
+    {        
+    	$db->delete('users', array('id', '=', $toBeModified));
+    }       
+    if ($button=='Change')
+    {
+        $role = array('role' => Input::get('newRole'));
+        $db->update('users', $toBeModified, $role);        
+        //var_dump( $db->results());
+    }    
+}
+?> 
 
 <h2>User Management</h2>
-
+<!-- Adding New user -->
 <a href="register.php" target="_parent"><button type="button">Create New User</button></a>
 
-
-
-
-
-
-<table width="50%" border="1">
-<!--Table header -->
-<tr><td>ID</td><td>Name</td><td>R/W</td><td>Role</td><td>Change Role To</tr>
-<form method="POST">
-<tr>
-<!-- Selector fields for filter-->
-<?php $selected_id=""; $selected_name=""; $selected_rw=""; $selected_role="";?>
-<td><input type="text" name="selected_id" size="6" value="<?php echo @$_POST['selected_id']; ?>"></td>
-<td><input type="text" name="selected_name" size="10" value="<?php echo @$_POST['selected_name']; ?>"></td>
-<td><input type="text" name="selected_rw" size="1" value="<?php echo @$_POST['selected_rw']; ?>"></td>
-<td><select name="selected_role">
-	<?php echo strlen($_POST['selected_role'])."<br>"; ?> <!--strlen Return the length of the string-->
-	<option value="" >Everyone</option>
-	<option value="0"><?php echo ROLE0 ?></option>
-	<option value="1"><?php echo ROLE1 ?></option>
-	<option value="2"><?php echo ROLE2 ?></option>
-	<option value="3"><?php echo ROLE3 ?></option>
-	<option value="4"><?php echo ROLE4 ?></option>
-	<option value="5"><?php echo ROLE5 ?></option>
-</select></td>
-<td></td>
-<td><input type="submit" value="Filter">
-<input type="submit" value="Clear" onClick="FormClear()"></td>
-</form>
-<!--Hits from the Database -->
+<table width="100%" border="1">
+<tr><td>User ID</td><td>Name</td><td>R/W</td><td>Role</td><td>Created</td><td>Last Login</td><td>Change Role To</tr>
 <tr>
 <?php
-
+$db->get('users', array('username', 'LIKE', '%'));
+$users = $db->results();
 echo "<h3>List of Users</h3>";
-while($user=mysql_fetch_object($result)){
-	echo "<tr><td>{$user->uid}</td>";
+foreach ($users as $user)
+{
+	echo "<tr><td>{$user->username}</td>";
 	echo "<td>{$user->last_name} {$user->first_name}</td>";
 	echo "<td>{$user->rw}</td>";
     switch ($user->role)
@@ -63,35 +52,37 @@ while($user=mysql_fetch_object($result)){
         case '2':{echo "<td>"; echo ROLE2; echo "</td>";break;}
         case '3':{echo "<td>"; echo ROLE3; echo "</td>";break;}
         case '4':{echo "<td>"; echo ROLE4; echo "</td>";break;} 
-	  case '5':{echo "<td>"; echo ROLE5; echo "</td>";break;} 	  
-    }        
-	
-    echo "<form method=\"POST\">";
-    echo '<input type="hidden" name="userid" value="'.$user->uid.'">';
+	    case '5':{echo "<td>"; echo ROLE5; echo "</td>";break;} 	  
+    }  
+    echo "<td>{$user->joined}</td>";
+    echo "<td>{$user->last_login}</td>";
+    echo "<form action=\"\" method=\"POST\">";
+    echo '<input type="hidden" name="id" value="'.$user->id.'">';
     echo "<td><select name=\"newRole\">";	
-    if($user->role!=0) {echo '<option value="0">'; echo ROLE0; echo "</option>"; }  
-    if($user->role!=1) {echo '<option value="1">'; echo ROLE1; echo "</option>"; } 
-    if($user->role!=2) {echo '<option value="2">'; echo ROLE2; echo "</option>"; } 
-    if($user->role!=3) {echo '<option value="3">'; echo ROLE3; echo "</option>"; } 
-    if($user->role!=4) {echo '<option value="4">'; echo ROLE4; echo "</option>"; } 
-    if($user->role!=5) {echo '<option value="5">'; echo ROLE5; echo "</option>"; } 
+       if($user->role!=0) {echo '<option value="0">'; echo ROLE0; echo "</option>"; }  
+       if($user->role!=1) {echo '<option value="1">'; echo ROLE1; echo "</option>"; } 
+       if($user->role!=2) {echo '<option value="2">'; echo ROLE2; echo "</option>"; } 
+       if($user->role!=3) {echo '<option value="3">'; echo ROLE3; echo "</option>"; } 
+       if($user->role!=4) {echo '<option value="4">'; echo ROLE4; echo "</option>"; } 
+       if($user->role!=5) {echo '<option value="5">'; echo ROLE5; echo "</option>"; } 
     echo '</td>';
     echo '</select>';		
 	//Buttons at the end of each record
      echo '<td>';  	
-    if ($user->uid!=$_COOKIE['ha_dist_id'])
+    if ($user->id != $_SESSION['user'])
     {
         echo '<input type="submit" name="okButton" value="Change"/>';
-    	echo '<input type="submit" name="okButton" value="Delete" onClick="return confirm(\'Are you sure?\')">';
-    }else {            
+    	echo '<input type="submit" name="okButton" value="Delete" onClick="return confirm(\'Are you sure you want to delete user: '.$user->username.'?\')">';
+    }
+    else {            
         echo '<input type="submit" name="okButton" value="Change" disabled/>';
-        echo '<input type="submit" name="okButton" value="Delete" disabled/>';}
-    echo '</td>';
-	echo '</form>';
+        echo '<input type="submit" name="okButton" value="Delete" disabled/>';
+    }
+    echo '</td>';    
+	echo '</form>';    
 }
 
 ?>
-
 
 </body>
 </html>

@@ -18,11 +18,25 @@ class Input {
         }
     }
 
+    public static function Count(){
+        return count(self::getAll());
+    }
+
     public static function get($item) {
         if(isset($_POST[$item])) {
             return $_POST[$item];
         } else if(isset($_GET[$item])) {
             return $_GET[$item];
+        }
+
+        return '';
+    }
+
+     public static function getAll() {
+        if(isset($_POST)) {
+            return $_POST;
+        } else if(isset($_GET)) {
+            return $_GET;
         }
 
         return '';

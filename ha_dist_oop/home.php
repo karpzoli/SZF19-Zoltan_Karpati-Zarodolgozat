@@ -40,9 +40,9 @@ if($user->isLoggedIn()) {
                   echo '<li><a href="./so_management.php"> Sales Orders </a></li>';}
                 if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
                   echo '<li><a href="./shipment_management.php"> Shipment </a></li>';}  
-                else {
-                  echo "<p>Error with user authorization!</p>";
-                }              
+                //else {
+                //  echo "<p>Error with user authorization!</p>";
+                //}              
                 ?> 
             </ul>
 <?php

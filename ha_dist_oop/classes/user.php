@@ -32,7 +32,7 @@ class User {
 
     public function create($fields = array()) {
         if(!$this->_db->insert('users', $fields)) {
-            throw new Exception('Sorry, there was a problem creating your account;');
+            throw new Exception('Problem occured during account creation!;');
         }
     }
 
@@ -62,7 +62,7 @@ class User {
 
     public function login($username = null, $password = null, $remember = false) {
         if(!$username && !$password && $this->exists()) {
-            Session::put($this->_sessionName, $this->data()->id);
+            Session::put($this->_sessionName, $this->data()->id); 
         } else {
             $user = $this->find($username);
 
