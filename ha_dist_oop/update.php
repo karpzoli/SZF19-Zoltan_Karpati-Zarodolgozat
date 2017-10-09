@@ -64,15 +64,14 @@ if(Input::exists()) {
 <?php include_once('header.php');?> 
 
 <h2>Profile - Change name</h2>
-<form action="" method="post">
-    <div class="field">
-        <label for="name">Name</label>
+<form action="" method="post" class="pure-form">
+    <legend>Name</legend>        
         <input type="text" name="first_name" placeholder="<?php echo escape($user->data()->first_name); ?>">
         <input type="text" name="last_name" placeholder="<?php echo escape($user->data()->last_name); ?>">
 
         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
-        <input type="submit" value="Update">
-    </div>
+        <input type="submit" value="Update" class="button-secondary pure-button">
+    
 </form>
 
 </body>

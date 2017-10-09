@@ -18,33 +18,33 @@ if(Session::exists('home')) {
 $user = new User(); //Current
 
 if($user->isLoggedIn()) {
-?>    
+?>        
     <?php include_once('header.php');?> 
-            
-            <ul>
-                <?php if($user->hasPermission(4) || $user->hasPermission(5)){
-                  echo '<li><a href="./material_management.php"> Material Mangement </a></li>';
-                  echo '<li><a href="./storage_management.php"> Storage Location </a></li>';
-                  echo '<li><a href="./customer_management.php"> Customer Management </a></li>';
-                  echo '<li><a href="./shipper_management.php"> Shipper Management </a></li>';
-                  echo '<li><a href="./user_management.php"> User Management </a></li>';
-                }
-                if($user->hasPermission(3) || $user->hasPermission(5) || $user->hasPermission(2) || $user->hasPermission(1)){
-                  echo '<li><a href="#"> Reports </a></li>';
-                }
-                if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
-                  echo '<li><a href="#"> Purchase Orders </a></li';
-                  echo '<li><a href="#"> Invoices </a></li';
-                }
-                if($user->hasPermission(2) || $user->hasPermission(5)){
-                  echo '<li><a href="./so_management.php"> Sales Orders </a></li>';}
-                if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){
-                  echo '<li><a href="./shipment_management.php"> Shipment </a></li>';}  
-                //else {
-                //  echo "<p>Error with user authorization!</p>";
-                //}              
-                ?> 
+         <div class="pure-menu custom-restricted-width"> 
+            <span class="pure-menu-heading">Menu</span>  
+            <ul class="pure-menu-list">
+                <?php if($user->hasPermission(4) || $user->hasPermission(5)){ ?>
+                  <li class="pure-menu-item"><a href="./material_management.php" class="pure-menu-link"> Material Mangement </a></li>
+                  <li class="pure-menu-item"><a href="./storage_management.php" class="pure-menu-link"> Storage Location </a></li>
+                  <li class="pure-menu-item"><a href="./customer_management.php" class="pure-menu-link"> Customer Management </a></li>
+                  <li class="pure-menu-item"><a href="./shipper_management.php"  class="pure-menu-link"> Shipper Management </a></li>
+                  <li class="pure-menu-item"><a href="./user_management.php"  class="pure-menu-link"> User Management </a></li>
+                <?php }
+                if($user->hasPermission(3) || $user->hasPermission(5) || $user->hasPermission(2) || $user->hasPermission(1)){?>
+                   <li class="pure-menu-item"><a href="#" class="pure-menu-link"> Reports </a></li> 
+                <?php }
+                if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){ ?>
+                  <li class="pure-menu-item"><a href="#" class="pure-menu-link"> Purchase Orders </a></li>
+                  <li class="pure-menu-item"><a href="#" class="pure-menu-link"> Invoices </a></li>
+                <?php }
+                if($user->hasPermission(2) || $user->hasPermission(5)){ ?>
+                  <li class="pure-menu-item"><a href="./so_management.php" class="pure-menu-link"> Sales Orders </a></li>
+                <?php }
+                if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)) { ?>
+                  <li class="pure-menu-item"><a href="./shipment_management.php" class="pure-menu-link"> Shipment </a></li>  
+                <?php } ?>                               
             </ul>
+</div>        
 <?php
 }
 else{ 
@@ -52,5 +52,8 @@ else{
     echo '<p> Please login <a href="login.php" target="_parent">here</a>!</a></p>';
 }
 ?>
+
+<!--<iframe src="./user_management.php"></iframe>-->
+
 </body>
 </html>

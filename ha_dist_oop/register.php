@@ -89,8 +89,9 @@ if (Input::exists()) {
 }
 ?>
 <h2>Add New User</h2>
-<form action="" method="post">
-    <div class="field">
+<form action="" method="post" class="pure-form pure-form-aligned">
+   <fieldset>
+    <div class="pure-control-group">
         <label for="first_name">First Name</label> <!--The for attribute specifies which form element a label is bound to.-->
         <input type="text" name="first_name" value="<?php echo escape(Input::get('first_name')); ?>" id="first_name">    
         <div class="field">
@@ -98,22 +99,22 @@ if (Input::exists()) {
         <input type="text" name="last_name" value="<?php echo escape(Input::get('last_name')); ?>" id="last_name">
     </div>
 
-    <div class="field">
+    <div class="pure-control-group">
         <label for="username">Username</label>
         <input type="text" name="username" id="username" maxlength="8" value="<?php echo escape(Input::get('username')); ?>">
     </div>
 
-    <div class="field">
+    <div class="pure-control-group">
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
     </div>
 
-    <div class="field">
+    <div class="pure-control-group">
         <label for="password_again">Password Again</label>
         <input type="password" name="password_again" id="password_again" value="">
     </div>
 
-    <div class="field">
+    <div class="pure-control-group">
         <label for="readWrite">Access type</label>       
         <select name="readWrite" id="readWrite" value="<?php echo escape(Input::get('readWrite')); ?>">
              <option value="0">Please select one</option>
@@ -122,7 +123,7 @@ if (Input::exists()) {
         </select>
     </div>
 
-      <div class="field">
+      <div class="pure-control-group">
         <label for="role">User Role</label>       
         <select name="role" id="role" value="<?php echo escape(Input::get('role')); ?>">
             <option value="">Please select one</option>		
@@ -136,7 +137,8 @@ if (Input::exists()) {
      </div>
 
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
-    <input type="submit" value="Register">
+    <input type="submit" value="Register" class="pure-button pure-button-primary">
+    </fieldset>
 </form>
 
 </body>

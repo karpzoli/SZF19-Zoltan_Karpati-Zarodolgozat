@@ -121,4 +121,9 @@ class User {
     public function isLoggedIn() {
         return $this->isLoggedIn;
     }
+
+    public function GetRole($roleid){
+       $this->_db->getfield('roles' , 'name', array('role_id', '=', $roleid));
+       return $this->_db->results();
+    }    
 }

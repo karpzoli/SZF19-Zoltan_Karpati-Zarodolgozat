@@ -2,8 +2,7 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
-    <!--<link href="/ha_dist/assets/popup.css" rel="stylesheet"> -->  
+    <meta charset="utf-8" />     
     <title>SO Management</title>        
 </head>
 <body>
@@ -17,12 +16,12 @@ $form = new SalesOrderForm();
 
 <h2>Sales Order Management</h2>
 
-<a href="create_order.php" target="_parent"><button type="button">Create Sales Order</button></a>
+<a href="create_order.php" target="_parent"><button type="button" class="pure-button pure-button-primary">Create Sales Order</button></a>
 
 <h3>Sales Order Created by me</h3>
 
-<table width="100%" border="1">
-<tr><td>Order #</td><td>Customer</td><td>Customer Name</td><td>Requested Del</td><td>Confirmed Del</td><td>Status</td><td>Priority</td></tr>
+<table width="100%" class="pure-table">
+<thead><th>Order #</th><th>Customer</th><th>Customer Name</th><th>Requested Del</th><th>Confirmed Del</th><th>Status</th><th>Priority</th></thead>
 <tr>
 <?php
 $orders     = $form->GetAllRecords('order_header', array('agent', '=', $_SESSION['user']));
@@ -43,11 +42,11 @@ foreach ($orders as $order)
     <td><?php echo ($order->priority)? 'yes':'no' ?></td>
     <!--Buttons at the end of each record-->
     <td>  	
-    <input type="submit" name="okButton" value="Details"/>
-    <input type="submit" name="okButton" value="Delete" onClick="return confirm("Are you sure you want to delete SO: <?php echo $order->order_number ?> ") ?">
+    <input type="submit" name="okButton" value="Details" class="button-secondary pure-button"/>
+    <input type="submit" name="okButton" value="Delete" class="button-error pure-button" onClick="return confirm('Are you sure you want to delete SO: <?php echo $order->order_number ?> ') ?">
     </td>  
 	</form> 
-    </tr>   
+    </tr>    
 <?php } ?>
  
 </body>

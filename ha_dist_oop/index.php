@@ -3,6 +3,8 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">  
+    <link rel="stylesheet" href="./core/mainStyle.css">  
     <title>HA Dist - Logon</title>    
 </head>
 <body>
@@ -42,26 +44,22 @@ if(Input::exists()) {
 }
 ?>
 
-<form action="" method="post">
-    <div class="field">
+<div id="Logon_screen">
+<form action="" method="post" class="pure-form pure-form-stacked"> 
+    <fieldset> 
+        <h3>HA Distribution</h3> 
         <label for='username'>Username</label>
-        <input type="text" name="username" id="username">
-    </div>
-
-    <div class="field">
+            <input type="text" name="username" id="username">  
         <label for='password'>Password</label>
-        <input type="password" name="password" id="password">
-    </div>
-
-    <div class="field">
+            <input type="password" name="password" id="password">
         <label for="remember">
-            <input type="checkbox" name="remember" id="remember">Remember me
+            <input type="checkbox" name="remember" id="remember" class="pure-checkbox">Remember me
         </label>
-    </div>
-
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
-    <input type="submit" value="Login">
+    <input type="submit" value="Login" class="pure-button pure-button-primary">
+   </fieldset>
 </form>
+</div>
 
 </body>
 </html>

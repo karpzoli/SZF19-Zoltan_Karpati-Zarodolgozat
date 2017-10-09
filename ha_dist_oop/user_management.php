@@ -31,10 +31,10 @@ if (Input::exists()) {
 
 <h2>User Management</h2>
 <!-- Adding New user -->
-<a href="register.php" target="_parent"><button type="button">Create New User</button></a>
+<a href="register.php" target="_parent"><button type="button" class="pure-button pure-button-primary">Create New User</button></a>
 
-<table width="100%" border="1">
-<tr><td>User ID</td><td>Name</td><td>R/W</td><td>Role</td><td>Created</td><td>Last Login</td><td>Change Role To</tr>
+<table width="90%" class="pure-table">
+<thead><tr><td>User ID</td><td>Name</td><td>R/W</td><td>Role</td><td>Created</td><td>Last Login</td><td>Change Role To</td><td>Action</td></tr></thead>
 <tr>
 <?php
 $db->get('users', array('username', 'LIKE', '%'));
@@ -71,12 +71,12 @@ foreach ($users as $user)
      echo '<td>';  	
     if ($user->id != $_SESSION['user'])
     {
-        echo '<input type="submit" name="okButton" value="Change"/>';
-    	echo '<input type="submit" name="okButton" value="Delete" onClick="return confirm(\'Are you sure you want to delete user: '.$user->username.'?\')">';
+        echo '<input type="submit" name="okButton" value="Change" class="button-secondary pure-button"/>';
+    	echo '<input type="submit" name="okButton" value="Delete" class="button-error pure-button" onClick="return confirm(\'Are you sure you want to delete user: '.$user->username.'?\')">';
     }
     else {            
-        echo '<input type="submit" name="okButton" value="Change" disabled/>';
-        echo '<input type="submit" name="okButton" value="Delete" disabled/>';
+        echo '<input type="submit" name="okButton" value="Change" class="button-secondary pure-button" disabled/>';
+        echo '<input type="submit" name="okButton" value="Delete" class="button-error pure-button" disabled/>';
     }
     echo '</td>';    
 	echo '</form>';    
