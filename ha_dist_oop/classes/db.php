@@ -56,9 +56,9 @@ class DB {
         if(count($where) === 3) {  
             $operators = array('=', '>', '<', '>=', '<=', 'LIKE');
 
-            $field = $where[0]; //order_number            
-            $operator = $where[1]; //IS NOT NULL
-            $value = $where[2]; //;                
+            $field = $where[0];            
+            $operator = $where[1]; 
+            $value = $where[2];             
 
             //check the operator's validity
             if(in_array($operator, $operators)) {

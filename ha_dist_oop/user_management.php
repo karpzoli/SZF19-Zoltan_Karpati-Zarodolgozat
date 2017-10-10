@@ -12,8 +12,7 @@ require_once 'core/init.php';
 include_once('header.php');
 $db = DB::getInstance();
 
-if (Input::exists()) {
-    //var_dump($_POST);
+if (Input::exists()) {    
     $button=Input::get('okButton');
     $toBeModified=Input::get('id');
     if ($button=='Delete')
@@ -23,8 +22,8 @@ if (Input::exists()) {
     if ($button=='Change')
     {
         $role = array('role' => Input::get('newRole'));
-        $db->update('users', $toBeModified, $role);        
-        //var_dump( $db->results());
+        //print_r($role);
+        $db->update('users', $toBeModified, $role);                
     }    
 }
 ?> 

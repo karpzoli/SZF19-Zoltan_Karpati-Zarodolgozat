@@ -34,3 +34,11 @@ function DeleteLineItem(rowNumber) {
 function ResetForm() {
     document.getElementByName("CreateNewsSO").reset();
 }
+
+function Alerting() {
+    window.alert(" has been successfully created!");
+}
+
+function goBack() {
+    window.history.back();
+}

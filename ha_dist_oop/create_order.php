@@ -20,11 +20,12 @@ $form = new SalesOrderForm();
    <input type="submit" name="CreateNewSoButton" value="Create" class="button-success pure-button">
    <input type="button" onclick="CancelNewElement()"  value="Cancel" class="button-warning pure-button">
    <button type="reset" class="button-secondary pure-button">Reset</button>
+
    <table id="CreateNewElementTable" class="pure-form pure-form-stacked">    
     <body onLoad="AddNewLineItem()">
     <tr><th>Customer</th>
-        <td><input type="number" name="newSoCustomer" required></td>
-        <td><input type="button" name="newSoCustomerSelectButton" value="List" class="button-secondary pure-button"></td> 
+        <td><input type="number" name="newSoCustomer" value="<?php if(Input::exists()) echo Input::get('number') ?>" required></td>
+        <td> <button class="pure-menu-item"><a href="./customerlist.php" class="pure-menu-link"> List </a></button></td> 
         <td id="customerNameLabel"></td>
     </tr>       
      <tr> 

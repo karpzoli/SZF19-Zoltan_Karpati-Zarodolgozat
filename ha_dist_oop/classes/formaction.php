@@ -24,6 +24,7 @@ Class formAction{
         $this->_db->getField($table, $column, $where);
         return $this->_db->results();
     }
+    
 }
 
 ?> 
