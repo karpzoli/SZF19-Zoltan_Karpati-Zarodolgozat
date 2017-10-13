@@ -23,8 +23,12 @@ Class formAction{
     public function GetRecordField($table, $column, $where){
         $this->_db->getField($table, $column, $where);
         return $this->_db->results();
+    } 
+
+    public function DeleteRecord($table, $where){
+        if($this->_db->delete($table, $where)) return true;
+        else return false;
     }
-    
 }
 
 ?> 

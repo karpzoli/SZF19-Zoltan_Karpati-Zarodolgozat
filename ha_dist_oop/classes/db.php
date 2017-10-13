@@ -90,7 +90,7 @@ class DB {
         //implode returns with a string
         //"INSERT INTO MyGuests (firstname, lastname, email) VALUES ('John', 'Doe', 'john@example.com');";
         $sql = "INSERT INTO {$table} (`" . implode('`, `', $keys) . "`) VALUES ({$values})";
-
+        
         if(!$this->query($sql, $fields)->error()) {
             return true;
         }

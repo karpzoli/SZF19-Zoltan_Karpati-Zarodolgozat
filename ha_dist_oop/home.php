@@ -21,7 +21,7 @@ if($user->isLoggedIn()) {
 ?>        
     <?php include_once('header.php');?> 
          <div class="pure-menu custom-restricted-width"> 
-            <span class="pure-menu-heading">Menu</span>  
+            <span class="pure-menu-heading"></span>  
             <ul class="pure-menu-list">
                 <?php if($user->hasPermission(4) || $user->hasPermission(5)){ ?>
                   <li class="pure-menu-item"><a href="./material_management.php" class="pure-menu-link"> Material Mangement </a></li>
@@ -31,11 +31,11 @@ if($user->isLoggedIn()) {
                   <li class="pure-menu-item"><a href="./user_management.php"  class="pure-menu-link"> User Management </a></li>
                 <?php }
                 if($user->hasPermission(3) || $user->hasPermission(5) || $user->hasPermission(2) || $user->hasPermission(1)){?>
-                   <li class="pure-menu-item"><a href="#" class="pure-menu-link"> Reports </a></li> 
+                   <li class="pure-menu-item"><a href="./reports.php" class="pure-menu-link"> Reports </a></li> 
                 <?php }
                 if($user->hasPermission(3) || $user->hasPermission(1) || $user->hasPermission(5)){ ?>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link"> Purchase Orders </a></li>
-                  <li class="pure-menu-item"><a href="#" class="pure-menu-link"> Invoices </a></li>
+                  <li class="pure-menu-item"><a href="./po_management.php" class="pure-menu-link"> Purchase Orders </a></li>
+                  <li class="pure-menu-item"><a href="./invoice_management.php" class="pure-menu-link"> Invoices </a></li>
                 <?php }
                 if($user->hasPermission(2) || $user->hasPermission(5)){ ?>
                   <li class="pure-menu-item"><a href="./so_management.php" class="pure-menu-link"> Sales Orders </a></li>

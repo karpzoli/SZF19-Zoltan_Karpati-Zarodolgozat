@@ -12,6 +12,30 @@
 require_once 'core/init.php';
 include_once('header.php');
 $form = new SalesOrderForm();
+
+if (Input::exists()){    
+	$button         = Input::get('okButton');
+    $selecteditem   = Input::get('id');
+
+        if($button == "Details"){
+            ?><div id="soDetails" name="soDetails"><?php
+               $lineItems   =  $form->GetAllRecords('order_lineitem', array('order_number' , '=' , $selecteditem));
+               foreach ($lineItems as $lineItem){
+                    ?><table>
+                        <tr><td>Ord #</td><td>Item</td><td>Qty</td><td>Qty</td></tr>
+                        <tr><td> <?php $lineItem->order_number ?></td><td>Item</td><td>Qty</td><td>Qty</td></tr>
+                      </table><?php
+               }               
+            ?></div><?php
+        }
+
+        if($button == "Delete"){            
+            if($form->DeleteRecord('order_header',array('order_number','=', $selecteditem))) {
+                $form->DeleteRecord('order_lineitem', array('order_number','=', $selecteditem));
+            }
+        }
+}
+
 ?>
 
 <h2>Sales Order Management</h2>
@@ -31,7 +55,7 @@ foreach ($orders as $order)
    $statusName      = $form->GetRecordField('status', 'name', array('status_id','=', $order->status));
      ?>    
     <form action="" method="POST">
-    <input type="hidden" name="id" value="<?php $order->order_number ?>">
+    <input type="hidden" name="id" value="<?php echo $order->order_number ?>">
     <tr>
     <td><?php echo $order->order_number           ?></td>
     <td><?php echo $order->customer               ?></td>
@@ -43,11 +67,14 @@ foreach ($orders as $order)
     <!--Buttons at the end of each record-->
     <td>  	
     <input type="submit" name="okButton" value="Details" class="button-secondary pure-button"/>
-    <input type="submit" name="okButton" value="Delete" class="button-error pure-button" onClick="return confirm('Are you sure you want to delete SO: <?php echo $order->order_number ?> ') ?">
+    <input type="submit" name="okButton" value="Delete" class="button-error pure-button" onClick="return confirm('Are you sure you want to delete SO: <?php echo $order->order_number ?>  ?')">
     </td>  
 	</form> 
     </tr>    
 <?php } ?>
  
+
+
+
 </body>
 </html>

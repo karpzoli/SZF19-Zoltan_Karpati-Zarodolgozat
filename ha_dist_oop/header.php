@@ -26,8 +26,8 @@
     </ul>
 </div>
 
-    <!--<input type="button" value="Back" onClick="history.back()" />-->
-    <button class="pure-button pure-button-primary" onclick="goBack()">Go Back</button>
+   <!--  <input type="button" value="Back" onClick="history.back()" />-->
+   <!-- <button class="pure-button pure-button-primary" onclick="goBack()">Go Back</button>-->
     <a href="./home.php" target="_parent"><button type="button" value="Return" class="pure-button pure-button-primary">Main page</button></a>
     <a href="logout.php" target="_parent"><button type="button" class="pure-button pure-button-primary">Logout</button></a>
 

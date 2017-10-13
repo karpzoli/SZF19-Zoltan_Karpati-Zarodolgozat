@@ -3,7 +3,7 @@ Class MaterialForm extends formAction{
 
 public function SetItem(){                
         $material = array(   
-                       'name'   => input::get('material_name'),
+                       'name'            => input::get('material_name'),
                        'price'           => input::get('price'),
                        'status'          => '50');                             
         $this->_db->insert('material', $material);
@@ -12,16 +12,19 @@ public function SetItem(){
 
 public function FormUpdate(){        
     $button=Input::get('okButton');
-    $toBeModified=Input::get('material_code');    
+    $toBeModified=Input::get('id');  
+    
     switch($button){
-        case 'Deactivate' : 
-            $this->_db->update('material', $toBeModified, array('status' => '51'));   
+        case 'Deactivate' :             
+            if(!$this->_db->update('material', $toBeModified, array('status' => '51'))){
+                echo 'There was a problem updating';}   
             break;
-        case 'Activate' : 
-            $this->_db->update('material', $toBeModified, array('status' => '50'));   
+        case 'Activate' :             
+             if(!$this->_db->update('material', $toBeModified, array('status' => '50'))){
+                echo 'There was a problem updating';} 
             break;
         case 'Delete' : 
-            $this->_db->delete('material', array('material_code', '=', $toBeModified));
+            $this->_db->delete('material', array('id', '=', $toBeModified));
             break;
     }    
 }

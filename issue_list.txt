@@ -1,12 +1,8 @@
-+ SO Management: check why it allows to delete the first line item?
-+ Material Mngm: update method doesn't work on status
 + why js alerting doesn't work????
++ PO creation doesn't write into DB
 
 
 Future development: 
 + introduce transactions when inserting into header and line item
 + mass upload from files
 + formatted report download
-
-
-

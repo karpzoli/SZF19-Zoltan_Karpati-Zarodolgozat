@@ -14,7 +14,7 @@ Class SalesOrderForm extends formAction{
 
     private function SetLineItems(){  
         //How many line item exists
-        $lineitems      = round((input::Count()-4)/3); 
+        $lineitems      = round((input::Count()-4)/3);         
         //Pass line be line to the Db   
         for ($i = 1; $i <= $lineitems; $i++){            
              $lineItem = array(   
@@ -40,8 +40,9 @@ Class SalesOrderForm extends formAction{
                        'doc_type'     => 'SO',
                        'priority'     => $newSoPriority);
             //print_r($header); echo '<br/>';
-            $this->_db->insert('order_header', $header);
-            return $this->_db->error();           
+            if($this->_db->insert('order_header', $header)) {
+                return true;}
+            else return $this->_db->error();           
     }
 
 

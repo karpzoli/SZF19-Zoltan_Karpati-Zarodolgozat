@@ -32,7 +32,7 @@ if (Input::exists()) {
 <!-- Adding New user -->
 <a href="register.php" target="_parent"><button type="button" class="pure-button pure-button-primary">Create New User</button></a>
 
-<table width="90%" class="pure-table">
+<table width="98%" class="pure-table">
 <thead><tr><td>User ID</td><td>Name</td><td>R/W</td><td>Role</td><td>Created</td><td>Last Login</td><td>Change Role To</td><td>Action</td></tr></thead>
 <tr>
 <?php

@@ -14,7 +14,8 @@ include_once('header.php');
 $form = new MaterialForm();
 
 if (Input::exists()) {    
-    $form->FormUpdate();
+    $form->FormUpdate();        
+    //Redirect::to('material_management.php?user='.escape($user->data()->username));
 }
 ?>
 
@@ -28,27 +29,27 @@ if (Input::exists()) {
 <thead><th>Material Code</th><th>Name</th><th>Price</th><th>Status</th></thead>
 
 <?php
-$materials     = $form->GetAllRecords('material', array('material_code', '>', '0'));
+$materials     = $form->GetAllRecords('material', array('id', '>', '0'));
 
 foreach ($materials as $material)
 {   $statusName      = $form->GetRecordField('status', 'name', array('status_id','=', $material->status));
     ?>    
     <form action="" method="POST">
-    <input type="hidden" name="material_code" value="<?php echo $material->material_code ?>">
+    <input type="hidden" name="id" value="<?php echo $material->id ?>">
     <tr>
-    <td><?php echo $material->material_code   ?></td>
+    <td><?php echo $material->id              ?></td>
     <td><?php echo $material->name            ?></td>    
     <td><?php echo $material->price           ?></td>
     <td><?php echo $statusName[0]->name       ?></td>
     <!--Buttons at the end of each record-->
     <td>  	
     <?php
-        if($material->status='50') 
-            {?><input type="submit" name="okButton" value="Deactivate" class="button-warning pure-button"/> <?php }
-        else { ?> <input type="submit" name="okButton" value="Activate" class="button-success pure-button"/> <?php }
+        if($material->status=='50') 
+              {?><input type="submit" name="okButton" value="Deactivate" class="button-warning pure-button"/> <?php }
+        else { ?> <input type="submit" name="okButton" value="Activate" class="button-success pure-button"/>  <?php }
     ?>
-    <input type="submit" name="okButton" value="Delete" class="button-error pure-button" onClick="return confirm('Are you sure you want to delete SO: <?php echo $material->material_code ?> ') ?">
-    </td>  
+    <input type="submit" name="okButton" value="Delete" class="button-error pure-button" onClick="return confirm('Are you sure you want to delete material: <?php echo $material->id ?>  ?')">                                                                                         
+    </td>                                                                                 
     </tr>    
 	</form> 
 
