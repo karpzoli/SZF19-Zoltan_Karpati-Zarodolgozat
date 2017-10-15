@@ -28,7 +28,7 @@ Class SalesOrderForm extends formAction{
     }
 
     private function SetHeaderItems(){
-        $agent          = $_SESSION['user'];
+        $agent          = Session::get('user');
         $newSoPriority  = (Input::get('newSoPriority')) ? 1 : 0;
         $header = array(   
                        'order_number' => $this->_orderNr,

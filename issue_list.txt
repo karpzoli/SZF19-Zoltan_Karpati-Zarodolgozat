@@ -1,8 +1,16 @@
 + why js alerting doesn't work????
-+ PO creation doesn't write into DB
-
 
 Future development: 
 + introduce transactions when inserting into header and line item
 + mass upload from files
 + formatted report download
++ progress response when working with docs
++ jobban elválasztani a View-t a Control-tól: View: csak kiir, Control, külön file-ban fogyeli az input-ot
+
+amit kellett volna még
++ tranzakciók bevezetése:
++ create SO: termékek listából való választása -> AJAX 
+
++ nagy falat
++ adatbázis tervezése 
++ leegyszerűsíteni a folyamatot a kivitelezhetőség szintjére, de megtartva az ésszerűséget

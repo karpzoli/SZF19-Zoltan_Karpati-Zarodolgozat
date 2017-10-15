@@ -18,17 +18,8 @@ if (Input::exists()){
     $selecteditem   = Input::get('id');
 
         if($button == "Details"){
-            ?><div id="soDetails" name="soDetails"><?php
-               $lineItems   =  $form->GetAllRecords('order_lineitem', array('order_number' , '=' , $selecteditem));
-               foreach ($lineItems as $lineItem){
-                    ?><table>
-                        <tr><td>Ord #</td><td>Item</td><td>Qty</td><td>Qty</td></tr>
-                        <tr><td> <?php $lineItem->order_number ?></td><td>Item</td><td>Qty</td><td>Qty</td></tr>
-                      </table><?php
-               }               
-            ?></div><?php
+            
         }
-
         if($button == "Delete"){            
             if($form->DeleteRecord('order_header',array('order_number','=', $selecteditem))) {
                 $form->DeleteRecord('order_lineitem', array('order_number','=', $selecteditem));

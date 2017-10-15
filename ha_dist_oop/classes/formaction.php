@@ -29,6 +29,12 @@ Class formAction{
         if($this->_db->delete($table, $where)) return true;
         else return false;
     }
+
+    protected function UpdateDocStatus($ids, $table, $newStatus){
+        foreach ($ids as $id){            
+        	$this->_db->update($table, $id, $newStatus);
+        }        
+    }
 }
 
 ?> 

@@ -109,8 +109,8 @@ class DB {
             }
             $x++;
         }
-
-        $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+        if($table == 'order_header'){$sql = "UPDATE {$table} SET {$set} WHERE order_number = {$id}";}
+        else {$sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";}
 
         if(!$this->query($sql, $fields)->error()) {
             return true;

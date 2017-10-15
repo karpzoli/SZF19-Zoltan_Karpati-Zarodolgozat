@@ -50,12 +50,14 @@ iframe {
     overflow-x: hidden;
 }
 
-/*#materialList{
-   height: 400px;
-   width: 370px;
-   float: right;
-   position: relative;
-}*/
+.ConfirmMsg{
+ 	border: solid white 1px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 3px lightblue;
+	display: block;
+	width: 90%;
+	margin: 5%;
+}
 
 .sidenav {
     height: 80%; /* 100% Full-height */
