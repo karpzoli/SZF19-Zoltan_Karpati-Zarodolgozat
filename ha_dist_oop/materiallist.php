@@ -29,7 +29,8 @@ foreach ($items as $item){
     <td><?php echo $item->id                                                                   ?></td>    
     <td><?php echo $item->name                                                                 ?></td>        
     </tr>    
-    </form> 
+    </form>
+</table>
 <?php } 
 if (Input::exists()){      
     Cookie::put('materialSelect', Input::get('material'), 90);          

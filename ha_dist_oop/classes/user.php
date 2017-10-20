@@ -32,7 +32,7 @@ class User {
 
     public function create($fields = array()) {
         if(!$this->_db->insert('users', $fields)) {
-            throw new Exception('Problem occured during account creation!;');
+            throw new Exception('Problem occurred during account creation!;');
         }
     }
 

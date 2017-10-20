@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2017 at 02:14 PM
+-- Generation Time: Oct 20, 2017 at 09:09 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -63,16 +63,17 @@ CREATE TABLE `customer` (
   `name` text NOT NULL,
   `representative` text CHARACTER SET latin1 NOT NULL COMMENT 'user representing the entity in the system',
   `hub` varchar(5) NOT NULL COMMENT 'which HUB it belongs to',
-  `rate` tinyint(3) UNSIGNED NOT NULL
+  `rate` tinyint(3) UNSIGNED NOT NULL,
+  `payment_due` int(10) UNSIGNED NOT NULL COMMENT 'basically, after how many days the payment will be due after invoice date'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`number`, `type`, `name`, `representative`, `hub`, `rate`) VALUES
-(10, '', 'Company 1 EMEA', 'dunno yet', 'EMEA', 2),
-(100, '', 'Company 1 JAPAC', '', 'JAPAC', 4);
+INSERT INTO `customer` (`number`, `type`, `name`, `representative`, `hub`, `rate`, `payment_due`) VALUES
+(10, '', 'Company 1 EMEA', 'dunno yet', 'EMEA', 2, 30),
+(100, '', 'Company 1 JAPAC', '', 'JAPAC', 4, 30);
 
 -- --------------------------------------------------------
 
@@ -126,7 +127,8 @@ INSERT INTO `hub` (`hub_code`, `name`) VALUES
 CREATE TABLE `invoice_header` (
   `invoice_number` int(10) UNSIGNED NOT NULL,
   `doc_type` varchar(2) NOT NULL,
-  `status` int(2) UNSIGNED NOT NULL
+  `status` int(2) UNSIGNED NOT NULL,
+  `doc_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -164,7 +166,9 @@ INSERT INTO `material` (`id`, `name`, `price`, `status`) VALUES
 (36, 'Side-by-side Refrigerator', 500, 50),
 (41, 'Red Vacuum Cleaner', 60, 50),
 (42, 'Toaster', 15, 50),
-(43, 'Simple Refrigerator', 300, 50);
+(43, 'Simple Refrigerator', 300, 50),
+(44, 'Blender', 15, 50),
+(45, 'Microwave owen - mid', 25, 50);
 
 -- --------------------------------------------------------
 
@@ -188,16 +192,18 @@ CREATE TABLE `order_header` (
 --
 
 INSERT INTO `order_header` (`order_number`, `customer`, `agent`, `req_del_dat`, `conf_del_date`, `status`, `doc_type`, `priority`) VALUES
-(2, 100, 14, '2018-01-01', '0000-00-00', 10, 'SO', 0),
-(3, 100, 14, '2017-10-20', '0000-00-00', 10, 'SO', 0),
+(2, 100, 14, '2018-01-01', '2018-01-10', 11, 'SO', 0),
+(3, 100, 14, '2017-10-20', '2018-01-10', 11, 'SO', 0),
 (4, 100, 14, '2018-04-20', '0000-00-00', 10, 'SO', 0),
 (5, 100, 14, '2018-03-25', '0000-00-00', 10, 'SO', 0),
 (6, 10, 14, '2018-05-05', '0000-00-00', 10, 'SO', 0),
-(7, 10, 14, '2019-01-01', '0000-00-00', 10, 'SO', 0),
+(7, 10, 14, '2019-01-01', '2018-03-05', 11, 'SO', 0),
 (8, 10, 14, '2019-01-01', '0000-00-00', 10, 'SO', 1),
-(9, 10, 14, '1011-10-10', '0000-00-00', 10, 'SO', 0),
+(9, 10, 14, '1011-10-10', '2018-03-05', 11, 'SO', 0),
 (10, 10, 14, '1011-10-10', '0000-00-00', 10, 'SO', 0),
-(11, 10, 14, '2018-01-01', '0000-00-00', 10, 'SO', 0);
+(11, 10, 14, '2018-01-01', '0000-00-00', 10, 'SO', 0),
+(12, 10, 14, '2017-12-10', '0000-00-00', 10, 'SO', 0),
+(13, 100, 14, '2017-12-11', '0000-00-00', 10, 'SO', 0);
 
 -- --------------------------------------------------------
 
@@ -232,7 +238,12 @@ INSERT INTO `order_lineitem` (`order_number`, `line_item`, `material`, `quantity
 (8, 2, 41, 100),
 (9, 1, 35, 1),
 (10, 1, 35, 1),
-(11, 1, 35, 1);
+(11, 1, 35, 1),
+(12, 1, 42, 1),
+(12, 2, 45, 23),
+(13, 1, 45, 1),
+(13, 2, 44, 2),
+(13, 3, 43, 3);
 
 -- --------------------------------------------------------
 
@@ -248,6 +259,14 @@ CREATE TABLE `po_header` (
   `delivery_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `po_header`
+--
+
+INSERT INTO `po_header` (`po_number`, `agent`, `doc_type`, `status`, `delivery_date`) VALUES
+(1, '1', 'PO', 20, '2018-01-10'),
+(2, '14', 'PO', 20, '2018-03-05');
+
 -- --------------------------------------------------------
 
 --
@@ -259,6 +278,14 @@ CREATE TABLE `po_lineitem` (
   `line_item` int(10) NOT NULL,
   `order_number` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `po_lineitem`
+--
+
+INSERT INTO `po_lineitem` (`po_number`, `line_item`, `order_number`) VALUES
+(1, 1, 2),
+(1, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -306,6 +333,7 @@ CREATE TABLE `shipment_header` (
 
 CREATE TABLE `shipment_lineitem` (
   `shipment_id` int(10) UNSIGNED NOT NULL,
+  `lineitem` int(11) NOT NULL,
   `container_id` varchar(10) CHARACTER SET utf8 NOT NULL,
   `po_number` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -418,7 +446,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `role`, `rw`, `password`, `salt`, `last_login`, `joined`) VALUES
-(1, 'karpatzo', 'Zoltan', 'Karpati', 4, 2, '6e9667f78be3d5cb597481e2646af9721e9607dc1e2d883e27bb729561eefc71', '\ZÞeê\Z\"ïåÑE,ÌlGT´®:—,“B‹‰@`', '2017-10-07 05:34:52', '2017-10-04 17:45:38'),
+(1, 'karpatzo', 'Zoltan', 'Karpati', 1, 2, '6e9667f78be3d5cb597481e2646af9721e9607dc1e2d883e27bb729561eefc71', '\ZÞeê\Z\"ïåÑE,ÌlGT´®:—,“B‹‰@`', '2017-10-15 14:03:06', '2017-10-04 17:45:38'),
 (3, 'DoeJo', 'John', 'Doe', 4, 1, '8293d673e9bdcc9a97ceaa44d12b923d8d6171af5ab27c78f9edc35aa77e5149', '¦µÉqÈ:¡xvwýÀ+7b)¡§ÂPj£©lƒ0', '2017-10-10 20:02:13', '2017-10-06 20:53:26'),
 (14, 'SystemAd', 'System', 'Admin', 5, 2, 'c1c1ad22ef89f820de5520b188c4ba046ef7328a18f71137abf8aa4df06f43a1', '¹½†%JkPÇ‡‚z¢<´z+5ß¿#â±F¼¿	~F', '2017-10-10 16:30:26', '2017-10-10 09:51:50'),
 (16, 'GibszJa', 'Jakab', 'Gibsz', 2, 2, '00aa85083eecc6154f08761cb87c68ec532302ce313a1ce13b92691262ffd77c', ']¼Ì8\Z°Î—EªgHGW*2(ªºŽJþgöë\'ñ¦A', '2017-10-13 14:18:37', '2017-10-13 16:18:37');
@@ -591,6 +619,12 @@ ALTER TABLE `users`
   ADD KEY `role_name` (`role`);
 
 --
+-- Indexes for table `users_session`
+--
+ALTER TABLE `users_session`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -603,12 +637,12 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` smallint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` smallint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `po_lineitem`
 --
 ALTER TABLE `po_lineitem`
-  MODIFY `line_item` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `line_item` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `shipping_company`
 --
@@ -624,6 +658,11 @@ ALTER TABLE `status`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `users_session`
+--
+ALTER TABLE `users_session`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -673,7 +712,20 @@ ALTER TABLE `order_header`
 -- Constraints for table `order_lineitem`
 --
 ALTER TABLE `order_lineitem`
-  ADD CONSTRAINT `order_lineitem_ibfk_1` FOREIGN KEY (`material`) REFERENCES `material` (`id`);
+  ADD CONSTRAINT `order_lineitem_ibfk_1` FOREIGN KEY (`material`) REFERENCES `material` (`id`),
+  ADD CONSTRAINT `order_lineitem_ibfk_2` FOREIGN KEY (`order_number`) REFERENCES `order_header` (`order_number`);
+
+--
+-- Constraints for table `po_header`
+--
+ALTER TABLE `po_header`
+  ADD CONSTRAINT `po_header_ibfk_1` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`);
+
+--
+-- Constraints for table `po_lineitem`
+--
+ALTER TABLE `po_lineitem`
+  ADD CONSTRAINT `po_lineitem_ibfk_1` FOREIGN KEY (`po_number`) REFERENCES `po_header` (`po_number`);
 
 --
 -- Constraints for table `shipment_header`

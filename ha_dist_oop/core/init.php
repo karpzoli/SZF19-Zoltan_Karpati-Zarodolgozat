@@ -23,8 +23,8 @@ $GLOBALS['config'] = array(
 );
 
 //instead using of 'include' on the file of a particular instantinated class in every file, this makes them available 
-spl_autoload_register(function($class) {    
-    require_once 'classes/' . strtolower($class) . '.php';
+spl_autoload_register(function($class) {
+    require_once ('classes/' . strtolower($class) . '.php');
 });
 
 require_once 'functions/sanitize.php';

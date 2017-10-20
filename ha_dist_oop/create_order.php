@@ -19,6 +19,7 @@ if(Input::exists()){
    if($form->AddNewRecord()) {
     echo '<div><br/><a href="so_management.php?user='.escape($user->data()->username).'" target="_parent"><button type="button" class="button-success pure-button">Sales Order creation was successful! Click Here to return!</button></a></div>';}
    Cookie::delete('customerSelect');
+   Cookie::delete('materialSelect');
    }
 
 ?>

@@ -34,7 +34,8 @@ foreach ($items as $item){
     <td><?php echo $item->hub                                                               ?></td>
     <td><?php echo $item->rate                                                              ?></td>    	
     </tr>    
-    </form> 
+    </form>
+</table>
 <?php } 
 if (Input::exists()){      
     Cookie::put('customerSelect', Input::get('customer'), 90);      
